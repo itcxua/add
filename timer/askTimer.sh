@@ -8,7 +8,7 @@ function READ_YN() {
   MESSAGE=$1;
   TIMEOUTREPLY=$2;
   NORMALREPLY="Y";
-  if [ -z "${MESSAGE}" ]; then MESSAGE="Script is Starting After... ${READTIMEOUT} second. "; fi;
+  if [ -z "${MESSAGE}" ]; then MESSAGE="Select "; fi;
   if [ -z "${TIMEOUTREPLY}" ]; then TIMEOUTREPLY="Y"; fi;
     TIMEOUTREPLY_UC=$( echo $TIMEOUTREPLY | awk '{print toupper($0)}' );
     TIMEOUTREPLY_LC=$( echo $TIMEOUTREPLY | awk '{print tolower($0)}' );
@@ -17,14 +17,14 @@ function READ_YN() {
     NORMALREPLY_LC=$( echo $NORMALREPLY | awk '{print tolower($0)}' );
 
 for (( i=$READTIMEOUT; i>=0; i--)); do
-    printf "\r${MESSAGE} [${NORMALREPLY_UC}${NORMALREPLY_LC}/${TIMEOUTREPLY_UC}${TIMEOUTREPLY_LC}] ('${TIMEOUTREPLY_UC}' in ${i}s) ";
+    printf "\r${MESSAGE} [${NORMALREPLY_UC}${NORMALREPLY_LC}/${TIMEOUTREPLY_UC}${TIMEOUTREPLY_LC}] (Default is '${TIMEOUTREPLY_UC}' in ${i}second. ) ";
     read -s -n 1 -t 1 waitreadyn;
     if [ $? -eq 0 ]; then break; fi;
-  done
-  yn=""
+  done;
+  yn="";
   if [ -z $waitreadyn ]; then
-    echo -e "\t\nNo input entered: Defaulting to '${TIMEOUTREPLY_UC}'"
-    yn="${TIMEOUTREPLY_UC}"
+    echo -e "\t\nNo input entered: Defaulting to '${TIMEOUTREPLY_UC}'";
+    yn="${TIMEOUTREPLY_UC}";
 elif [[ "${waitreadyn}" == "y" ]]; then
     echo -en "\nStarted now...\n My commend is next!! ";
 elif [[ "${waitreadyn}" == "n" ]]; then
@@ -32,8 +32,8 @@ elif [[ "${waitreadyn}" == "n" ]]; then
     exit 0;
 elif [[ "${waitreadyn}" -eq "" ]]; then
   echo -en "\nError select. Return answer.." && sleep 3;
-  read_yn
-fi
+  read_yn;
+fi;
 };
 
 
