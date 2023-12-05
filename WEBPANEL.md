@@ -182,39 +182,39 @@ URL: [Vesta CP Install](https://vestacp.com/install/)
 
   ### DEFAULT INSTALL SETTINGS:
   
-      ```bash
-      apt update && apt install -y wget curl
-      mkdir -p /temp && cd /temp ;
-      
-      # Download installation script
-      curl -O http://vestacp.com/pub/vst-install.sh && chmod +x vst-install.sh && bash vst-install.sh
-    ```
+  ```bash
+    apt update && apt install -y wget curl
+    mkdir -p /temp && cd /temp ;
+    
+    # Download installation script
+    curl -O http://vestacp.com/pub/vst-install.sh && chmod +x vst-install.sh && bash vst-install.sh
+  ```
 
   ### ADVANCED INSTALL SETTINGS:
   
-    ```bash
-        apt update && apt install -y wget curl;
-        mkdir -p /temp && cd /temp ;
+  ```bash
+    apt update && apt install -y wget curl;
+    mkdir -p /temp && cd /temp ;
     
-        read -p "Enter hostname: " WEBPanelHostname
-        read -p "Enter Admin Email: " WEBPanelEmail
-        read -p "Enter Admin Password: " WEBPanelPassword
+    read -p "Enter hostname: " WEBPanelHostname
+    read -p "Enter Admin Email: " WEBPanelEmail
+    read -p "Enter Admin Password: " WEBPanelPassword
     
-        bash <(curl http://vestacp.com/pub/vst-install.sh || wget -O - http://vestacp.com/pub/vst-install.sh) \
-          --nginx yes --apache yes --phpfpm no --named yes --remi yes \
-          --vsftpd no --proftpd yes \
-          --iptables yes --fail2ban yes \
-          --quota yes \
-          --exim yes --dovecot yes --spamassassin yes --clamav yes \
-          --softaculous yes \
-          --mysql yes --postgresql yes \
-          --hostname ${WEBPanelHostname} --email ${WEBPanelEmail} --password ${WEBPanelPassword}
+    bash <(curl http://vestacp.com/pub/vst-install.sh || wget -O - http://vestacp.com/pub/vst-install.sh) \
+    --nginx yes --apache yes --phpfpm no --named yes --remi yes \
+    --vsftpd no --proftpd yes \
+    --iptables yes --fail2ban yes \
+    --quota yes \
+    --exim yes --dovecot yes --spamassassin yes --clamav yes \
+    --softaculous yes \
+    --mysql yes --postgresql yes \
+    --hostname ${WEBPanelHostname} --email ${WEBPanelEmail} --password ${WEBPanelPassword}
     
-        # ************
-        # URL: – https://your-host:8443
-        #
-        # END
-    ```
+    # ************
+    # URL: – https://your-host:8443
+    #
+    # END
+  ```
 
 _____________________________________________________________
 _____________________________________________________________
