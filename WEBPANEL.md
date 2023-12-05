@@ -178,8 +178,9 @@
 
 
 ## 14. Vesta CP
+URL: [Vesta CP Install](https://vestacp.com/install/)
 
-  ### DEFAULT:
+  ### DEFAULT INSTALL SETTINGS:
   
       ```bash
       apt update && apt install -y wget curl
@@ -189,7 +190,7 @@
       curl -O http://vestacp.com/pub/vst-install.sh && chmod +x vst-install.sh && bash vst-install.sh
     ```
 
-  ### DEFAULT + select modules:
+  ### ADVANCED INSTALL SETTINGS:
   
     ```bash
         apt update && apt install -y wget curl;
