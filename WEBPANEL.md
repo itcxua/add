@@ -4,7 +4,7 @@
 ✅✳️❎⚠️❌⭕️🟢🟡✔️®️📶⁉️‼️⚠️❌⛔️⭕️🌐
 
 
-## 1. CloudPanel
+## 🟢 1. CloudPanel
 
   ```bash
       # Login via SSH to the Server.
@@ -39,7 +39,7 @@
       # ****** END
   ```
 
-## 2. Ajenti
+## 🟢 2. Ajenti
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -50,7 +50,7 @@
       # ****** END
   ```
 
-## 3. ISPConfig
+## 🟢 3. ISPConfig
 
   ```bash
       sh <(curl https://cyberpanel.net/install.sh || wget -O - https://cyberpanel.net/install.sh)
@@ -62,7 +62,7 @@
   ```
 
 
-## 4. CyberPanel
+## 🟢 4. CyberPanel
 
 ‼️ CyberPanel — это инструмент с открытым исходным кодом, который поддерживает различные операционные системы
 ‼️ OS: Ubuntu 22.04 LTS Server, CentOS 7/8, CloudLinux 7/8, Red Hat Enterprise Linux 6/7/8, Debian 9/10 и OpenSUSE 15.2.
@@ -174,7 +174,7 @@
   ```
 
 
-## 5. Aapanel
+## 🟢 5. Aapanel
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -186,7 +186,7 @@
   ```
 
 
-## 6. Froxlor
+## 🟢 6. Froxlor
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -198,7 +198,7 @@
   ```
 
 
-## 7. Virtualmin
+## 🟢 7. Virtualmin
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
       #
@@ -208,18 +208,7 @@
       # ****** END
   ```
 
-## 8. Zpanel
-  ```bash
-      sh <(curl install.sh || wget -O - install.sh)
-      #
-      # ************
-      # URL: – https://your-host:80
-      #
-      # ****** END
-  ```
-
-
-## 9. FastPanel
+## 🟢 8. Zpanel
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
       #
@@ -230,8 +219,7 @@
   ```
 
 
-## 10. Control Web Panel
-
+## 🟢 9. FastPanel
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
       #
@@ -242,7 +230,7 @@
   ```
 
 
-## 11. DirectAdmin
+## 🟢 10. Control Web Panel
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -254,7 +242,7 @@
   ```
 
 
-## 12. Solid CP
+## 🟢 11. DirectAdmin
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -266,7 +254,7 @@
   ```
 
 
-## 13. MediaCP
+## 🟢 12. Solid CP
 
   ```bash
       sh <(curl install.sh || wget -O - install.sh)
@@ -278,7 +266,19 @@
   ```
 
 
-## 14. Vesta CP
+## 🟢 13. MediaCP
+
+  ```bash
+      sh <(curl install.sh || wget -O - install.sh)
+      #
+      # ************
+      # URL: – https://your-host:80
+      #
+      # ****** END
+  ```
+
+
+## 🟢 14. Vesta CP
 
 🌐 URL: [Vesta CP Install](https://vestacp.com/install/)
 
@@ -318,12 +318,64 @@
     # END
   ```
 
+
+## 🟢 13. webmin
+
+🌐 URL: [webmin Install](https://webmin.com/download/)
+
+  ### Debian and derivatives
+  
+  ```bash
+    curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
+    sh setup-repos.sh
+    apt-get install webmin --install-recommends
+    apt-get install --install-recommends ./webmin-current.deb
+  ```
+
+  ### RHEL and derivatives
+  
+  ```bash
+    curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
+    sh setup-repos.sh
+    dnf install webmin
+    dnf install ./webmin-current.rpm
+  ```
+
+  ### Solaris
+  
+  ```bash
+    # The root user be switched from a role account to a normal account to logins to work
+    rolemod -K type=normal root
+    # Uncompress
+    gunzip webmin-current.pkg.gz
+    # Install
+    pkgadd -d webmin-current.pkg
+  ```
+
+  ### FreeBSD and any other Linux installation from source
+  
+  ```bash
+    # Change directory
+    cd /tmp
+    # Uncompress
+    gunzip webmin-current.tar.gz
+    tar xf webmin-current.tar.gz
+    cd webmin-current
+    # Install
+    ./setup.sh /usr/local/webmin
+  ```
+
+
 _____________________________________________________________
 _____________________________________________________________
 
 
 
-# NON-Free WEBPanels for server management
+
+
+
+
+# ❌❌NON-Free WEBPanels for server management
 ************************************
 ✅✳️❎⚠️❌⭕️
 
