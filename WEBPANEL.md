@@ -64,10 +64,13 @@
 
 ## 🟢 4. CyberPanel
 
+### Установите CyberPanel на сервер Ubuntu 20.04 LTS
+
 ‼️ CyberPanel — это инструмент с открытым исходным кодом, который поддерживает различные операционные системы
 ‼️ OS: Ubuntu 22.04 LTS Server, CentOS 7/8, CloudLinux 7/8, Red Hat Enterprise Linux 6/7/8, Debian 9/10 и OpenSUSE 15.2.
 
 🌐 URL: [CyberPanel Install Ubuntu 20.04](https://www.redswitches.com/blog/cyberpanel-on-ubuntu/#5)
+
 ⚠️ Ubuntu 20.04 - None Upgrade 22.04
 
   ```bash
@@ -79,10 +82,11 @@
       # ****** END
   ```
 
-## Установите CyberPanel на сервер Ubuntu 22.04 LTS
-⚠️ Ubuntu 22.04 - Upgrade 22.04
-🌐 URL: [CyberPanel Install Ubuntu 22.04](https://www.redswitches.com/blog/cyberpanel-on-ubuntu/#5)
+### Установите CyberPanel на сервер Ubuntu 22.04 LTS
 
+⚠️ Ubuntu 22.04 - Upgrade 22.04
+
+🌐 URL: [CyberPanel Install Ubuntu 22.04](https://www.redswitches.com/blog/cyberpanel-on-ubuntu/#5)
 
   ```bash
     # Первым шагом является вход на ваш сервер с помощью SSH-клиента, такого как PuTTY, и обновление системных пакетов:
