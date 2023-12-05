@@ -63,7 +63,9 @@
 
 
 ## 4. CyberPanel
+
 🌐 URL: [Vesta CP Install](https://vestacp.com/install/)
+
 ⚠️ Ubuntu 20.04 - None Upgrade 22.04
 
   ```bash
