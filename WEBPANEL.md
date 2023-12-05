@@ -1,7 +1,8 @@
 # Free WEBPanels for server management
-*****************************
 
-✅✳️❎⚠️❌⭕️
+*****************************
+✅✳️❎⚠️❌⭕️🟢🟡✔️®️📶⁉️‼️⚠️❌⛔️⭕️🌐
+
 
 ## 1. CloudPanel
 
@@ -62,6 +63,8 @@
 
 
 ## 4. CyberPanel
+🌐 URL: [Vesta CP Install](https://vestacp.com/install/)
+⚠️ Ubuntu 20.04 - None Upgrade 22.04
 
   ```bash
       sh <(curl https://cyberpanel.net/install.sh || wget -O - https://cyberpanel.net/install.sh)
@@ -178,7 +181,8 @@
 
 
 ## 14. Vesta CP
-URL: [Vesta CP Install](https://vestacp.com/install/)
+
+🌐 URL: [Vesta CP Install](https://vestacp.com/install/)
 
   ### DEFAULT INSTALL SETTINGS:
   
