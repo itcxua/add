@@ -1,3 +1,3 @@
 # add
 
-Many (WebPanel Hosting)[WebPanel]
+Many [WebPanel Hosting](WEBPANEL.md)
