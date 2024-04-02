@@ -86,7 +86,8 @@ function THIS() {
 	echo -en "\t${Yellow}Do you want Run This script [y/N] .?${RC} "; 
 	read -e syn; 
 	case $syn in 
-		[Yy]* ) echo -e "\n\t${GREEN}Starting NOW..${NC}"; sleep 2 && break ;; 
+		[Yy]* ) echo -e "\n\t${GREEN}Starting NOW..${NC}"; 
+  			sleep 2 && break ;; 
 		[Nn]* ) exit 0 ;;
 	esac; 
 	done;
