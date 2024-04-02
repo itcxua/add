@@ -1683,8 +1683,7 @@ Admin Panel Admin:          ${wp_admin}
 Admin Panel Password:       ${wp_pass}
 
 Try to connect mysql database:  mysql -h 127.0.0.1 -u root -p${db_pass}
-=================================================
-"
+=================================================";
 
 echo "
 =================================================
@@ -1701,9 +1700,7 @@ Admin Panel Link:           http://${domain}/wp-admin/
 Admin Panel Admin:          ${wp_admin}
 Admin Panel Password:       ${wp_pass}
 
------------------------------------------------
-" >> /tmp/credentials.txt
-
+-----------------------------------------------" >> /tmp/credentials.txt
 
 }
 
@@ -1758,6 +1755,7 @@ case $response in
   wget $ADDTOANY -O /tmp/addtoany.zip
   unzip /tmp/addtoany.zip -d /tmp/addtoany
   mv /tmp/addtoany/* /var/www/${domain}/wp-content/plugins/
+  echo "'''"
 
         WATERMARK="`curl https://wordpress.org/plugins/easy-watermark/ | grep https://downloads.wordpress.org/plugin/easy-watermark.*.*.*.zip | awk '{print $2}' | sed -ne 's/.*\(http[^\"]*.zip\).*/\1/p'`"
         if [ -z "$WATERMARK" ]; then
@@ -1805,7 +1803,7 @@ case $response in
   sleep 5
         ;;
     *)
-  echo -e "${RED}You didn't create any swap for faster system working. You can do this manually or re run this script.${NC}"
+  echo -e "${RED}You didn''t create any swap for faster system working. You can do this manually or re run this script.${NC}"
         ;;
 esac
 }
@@ -1816,10 +1814,10 @@ esac
 
 function creSECURE() {
 
-#creation of secure .htaccess
-echo -e "${YELLOW}Creation of secure .htaccess file...${NC}"
-sleep 3
-cat >/var/www/${domain}/.htaccess <<EOL
+	#creation of secure .htaccess
+	echo -e "${YELLOW}Creation of secure .htaccess file...${NC}"
+	sleep 3
+	cat >/var/www/${domain}/.htaccess <<EOL
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
@@ -1868,8 +1866,8 @@ AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css a
 </ifModule>
 
 Options +FollowSymLinks -Indexes
-
 EOL
+
 
 chmod 644 /var/www/${domain}/.htaccess
 echo -e "${GREEN}.htaccess file was succesfully created!${NC}"
@@ -2247,9 +2245,9 @@ read -p "Press [Enter] key to continue..." fackEnterKey;
 #      Owncloud Ubuntu 20
 #--------------------------------------
 function OwnCloud_V20() {
-# ----------------------------
-FILE="/usr/local/bin/occ"
-/bin/cat <<EOM >$FILE
+
+	FILE="/usr/local/bin/occ"
+	/bin/cat <<EOM >$FILE
 #! /bin/bash
 cd /var/www/owncloud
 sudo -E -u www-data /usr/bin/php /var/www/owncloud/occ "\$@"
@@ -2303,16 +2301,16 @@ dbNAME="owncloud"
 dbUSER="owncloud"
 adminUSER="admin"
 adminPASS="$(</dev/urandom tr -dc 'A-Za-z0-9%&?@' |head -c 12 )"
-# ----------------------------
+
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${dbNAME}; \
 GRANT ALL PRIVILEGES ON ${dbNAME}.* \
   TO ${dbUSER}@localhost \
   IDENTIFIED BY '${dbPASS}'";
-# ----------------------------
+
 echo "Enabling Apache Modules"
 a2enmod dir env headers mime rewrite setenvif
 service apache2 reload
-# ----------------------------
+
 cd /var/www/
 wget https://download.owncloud.org/community/owncloud-10.8.0.tar.bz2 && \
 tar -xjf owncloud-10.8.0.tar.bz2 && \
@@ -2321,9 +2319,8 @@ chown -R www-data. owncloud
 # ================================
 #    Install ownCloud
 # ================================
-echo "Installation OwnCloud"
-sleep 3
-# ----------------------------
+echo "Installation OwnCloud" && sleep 3
+
 occ maintenance:install \
     --database "mysql" \
     --database-name "${dbNAME}" \
@@ -2351,13 +2348,12 @@ occ config:system:get trusted_domains
 #CustomLog ${APACHE_LOG_DIR}/access.log combined
 # ================================
 
-# ----------------------------
 occ background:cron
 echo "*/15  *  *  *  * /var/www/owncloud/occ system:cron" \
   > /var/spool/cron/crontabs/www-data
 chown www-data.crontab /var/spool/cron/crontabs/www-data
 chmod 0600 /var/spool/cron/crontabs/www-data
-# ----------------------------
+
 echo "
 # ==================   NOTE   ================== #
 - Если нужно синхронизировать пользователей с LDAP или 
@@ -2365,27 +2361,29 @@ echo "
 - Каждые 15 минут это задание cron будет синхронизировать пользов. 
   LDAP в ownCloud и откл. тех, которые недоступны для ownCloud. 
 - Кроме того, получаете файл журнала отладки /var/log/ldap-sync/user-sync.log
-# ================================================ #
-"
-# ----------------------------
+# ================================================ #"
+
+
 echo "*/15 * * * * /var/www/owncloud/occ user:sync 'OCA\User_LDAP\User_Proxy' -m disable -vvv >> /var/log/ldap-sync/user-sync.log 2>&1" >> /var/spool/cron/crontabs/www-data
 chown www-data.crontab  /var/spool/cron/crontabs/www-data
 chmod 0600  /var/spool/cron/crontabs/www-data
 mkdir -p /var/log/ldap-sync
 touch /var/log/ldap-sync/user-sync.log
 chown www-data. /var/log/ldap-sync/user-sync.log
-# ----------------------------
+
 occ config:system:set \
    memcache.local \
    --value '\OC\Memcache\APCu'
+
 occ config:system:set \
    memcache.locking \
    --value '\OC\Memcache\Redis'
+
 occ config:system:set \
    redis \
    --value '{"host": "127.0.0.1", "port": "6379"}' \
    --type json
-# ----------------------------
+
 FILE="/etc/logrotate.d/owncloud"
 sudo /bin/cat <<EOM >$FILE
 /var/www/owncloud/data/owncloud.log {
@@ -2397,6 +2395,8 @@ sudo /bin/cat <<EOM >$FILE
   compresscmd /bin/gzip
 }
 EOM
+
+
 # ----------------------------
   cd /var/www/
   mkdir -p /var/www/owncloud && chown -R www-data. owncloud
@@ -2426,12 +2426,10 @@ EOM
 
 
 # OwnCloud START Installation
-#----------------------------------------
-echo "Start Install ownCloud "
-read -p "Domain Name (eg. example.com): " mydomain
-sleep 3
-apt update && apt upgrade -y
-sleep 3
+# ********************************
+  echo "Start Install ownCloud"
+  read -p "Domain Name (eg. example.com): " mydomain && sleep 3;
+  apt update && apt upgrade -y && sleep 3;
 
   OS="$( cat /etc/*release |grep '^ID=' |sed 's/"//g' |awk -F= '{print $2 }' )";
   release="$( cat /etc/*release |grep '^VERSION_ID=' |sed  's/"//g' |awk -F= '{print $2 }' )";
@@ -2450,9 +2448,9 @@ sleep 3
 
 
 
-# =============================
+# ********************************
 #      Pure-FTP
-#==============================
+# ********************************
 function PUREFTP_RUN() {
 	clear
 	echo -e "\n\n${GREEN}Welcome to Pure-FTP Auto Installer Script${NC}\n\n"
@@ -2597,8 +2595,10 @@ function title {
 
 
 
-##=========================
-# Install Ubuntu, Debian, Centos 
+# ********************************
+# Install VESTA 
+# to: Ubuntu, Debian, Centos 
+# ********************************
 function Inst_VESTA() {
   title
   read -p "Enter Domain name: " domainname
@@ -2640,7 +2640,7 @@ function Inst_VESTA() {
 
 
 # Install HESTIA Web Panel
-********************************
+# ********************************
 function INS_HESTIA() {
 #-------------------------------------------#
 #               Debian + Ubuntu             #
@@ -2757,34 +2757,35 @@ if [[ "$release" =~ ^(9|10|11|18.04|20.04)$ ]]; then
 #exit;
 };
 
+
 # ********************************
 # Install FAST Panel
 # ********************************
 function INS_FASTPANEL() {
+ if [ -f /etc/os-release ]; then
+    source /etc/os-release
+else
+    exit 1
+fi
 
-	 if [ -f /etc/os-release ]; then
-	    source /etc/os-release
-	else
-	    exit 1
-	fi
-	
-	case ${ID} in
-	    debian|ubuntu )     wget --quiet http://repo.fastpanel.direct/install/debian.sh -O /tmp/$$_install_fastpanel.sh
-	                        ;;
-	    centos|almalinux|rocky )            wget --quiet http://repo.fastpanel.direct/install/centos.sh -O /tmp/$$_install_fastpanel.sh 
-	                        ;;
-	    * )                 echo "Can\'t detect OS. Please check the /etc/os-release file.'"
-	                        exit 1
-	esac
-	
-	bash /tmp/$$_install_fastpanel.sh $@
-	rm /tmp/$$_install_fastpanel.sh
- 
+case ${ID} in
+    debian|ubuntu )     wget --quiet http://repo.fastpanel.direct/install/debian.sh -O /tmp/$$_install_fastpanel.sh
+			;;
+    centos|almalinux|rocky )            wget --quiet http://repo.fastpanel.direct/install/centos.sh -O /tmp/$$_install_fastpanel.sh 
+			;;
+    * )                 echo "Can\'t detect OS. Please check the /etc/os-release file.'"
+			exit 1
+esac
+
+bash /tmp/$$_install_fastpanel.sh $@
+rm /tmp/$$_install_fastpanel.sh
+
 }; 
 
 
 
 # Update Script
+# ********************************
 function SCriptUPDATE() {
 	echo -en "\n Updating SCRIPT $filename ..." && sleep 2;
 	wget $updpath/$filename -r -N -nd --no-check-certificate
@@ -2795,21 +2796,23 @@ function SCriptUPDATE() {
 	echo -en "\n\t...script is upgradet.\n" && sleep 3;
 };
 
+# ********************************
 # OpenVPN Install
-# **************************
+# ********************************
 function INS_OpenVPN() {
 	wget https://raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn-install.sh -O - | bash -
 	echo -en "\n Now OpenVPN is INSTALLED" && sleep 2;
 }
 
 
-# =============================
+
+# ###################################################
 #       END MAIN SCRIPT
-# =============================
+# ###################################################
 
 
 
-# =============================
+# ###################################################
 function MAIN() {
 
 #==============================
@@ -2834,6 +2837,7 @@ function MENU_MAIN() {
 }
 
 #   Menu SSH
+## *************************************
 function Men_SSH() {
 	title="Generate Key SSH";
 	echo -e -n "\n\t${GREEN}SSH KeyGen:${NC}\n"
@@ -2849,6 +2853,7 @@ function Men_SSH() {
 }
 
 ##   LEMP MENU 
+## *************************************
 function MENU_LEMP() {
 	echo -e -n "\n\t ${GREEN}LEMP, WordPress installation & Settings:${NC} \n"
 echo -e "
@@ -2861,6 +2866,7 @@ echo -e "
 }
 
 ##   MENU 3: LAMP
+## *************************************
 function MENU_LAMP() {
     echo -e "\n\t ${GREEN}LAMP installation & Settings:${NC} \n"
     echo -e -n "${Yellow}";
@@ -2882,6 +2888,7 @@ function MENU_CPANEL() {
 };
 
 ##   MENU 5: Web Control Panel
+## *************************************
 function MENU_5() {
     echo -e "\n\t ${GREEN}Menu 5: FREE ${Yellow} \n";
     echo -e "\t1. FREE                            ${PURPLE} ";
@@ -2902,7 +2909,9 @@ function MENU_6() {
     echo -e "\n\t0. Back                          ${NC}\n ";
 };
 
+## *************************************
 ##   MENU 7: Web Control Panel
+## *************************************
 function MENU_7() {
     echo -e "\n\t ${GREEN}Menu 7: FREE ${Yellow} \n";
     echo -e "\t1. FREE                            ${PURPLE} ";
@@ -2913,7 +2922,9 @@ function MENU_7() {
 };
 
 
+## *************************************
 ##   MENU 8: Modules & Components
+## *************************************
 function MENU_MODandCOMPON() {
     echo -e "\n\t ${GREEN}Menu 8: Modules & Components ${Yellow} \n";
     echo -e "\t1. Install Pure-FTP                ${PURPLE} ";
@@ -2923,7 +2934,9 @@ function MENU_MODandCOMPON() {
     echo -e "\n\t0. Back                          ${NC}\n ";
 };
 
+## *************************************
 ##   MENU 9: Script Components
+## *************************************
 function MENU_ScriptCOMPON() {
     echo -e "\n\t ${GREEN}Menu 9: Script Components ${BLUE} \n";
     echo -e "\t1. Update Script                   ${PURPLE} ";
