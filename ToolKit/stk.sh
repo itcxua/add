@@ -2639,7 +2639,8 @@ function Inst_VESTA() {
 
 
 
-
+# Install HESTIA Web Panel
+********************************
 function INS_HESTIA() {
 #-------------------------------------------#
 #               Debian + Ubuntu             #
@@ -2749,12 +2750,38 @@ check_wget_curl(){
 #
 if [[ "$release" =~ ^(9|10|11|18.04|20.04)$ ]]; then
     check_wget_curl $*
-else
+  else
     no_support_message
-fi
+  fi;
 
 #exit;
-}
+};
+
+# ********************************
+# Install FAST Panel
+# ********************************
+function INS_FASTPANEL() {
+
+	 if [ -f /etc/os-release ]; then
+	    source /etc/os-release
+	else
+	    exit 1
+	fi
+	
+	case ${ID} in
+	    debian|ubuntu )     wget --quiet http://repo.fastpanel.direct/install/debian.sh -O /tmp/$$_install_fastpanel.sh
+	                        ;;
+	    centos|almalinux|rocky )            wget --quiet http://repo.fastpanel.direct/install/centos.sh -O /tmp/$$_install_fastpanel.sh 
+	                        ;;
+	    * )                 echo "Can\'t detect OS. Please check the /etc/os-release file.'"
+	                        exit 1
+	esac
+	
+	bash /tmp/$$_install_fastpanel.sh $@
+	rm /tmp/$$_install_fastpanel.sh
+ 
+}; 
+
 
 
 # Update Script
@@ -2768,6 +2795,12 @@ function SCriptUPDATE() {
 	echo -en "\n\t...script is upgradet.\n" && sleep 3;
 };
 
+# OpenVPN Install
+# **************************
+function INS_OpenVPN() {
+	wget https://raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn-install.sh -O - | bash -
+	echo -en "\n Now OpenVPN is INSTALLED" && sleep 2;
+}
 
 
 # =============================
@@ -2838,12 +2871,13 @@ function MENU_LAMP() {
 }; 
 
 ##   MENU 4: Web Control Panel
+## *************************************
 function MENU_CPANEL() {
     echo -e "\n\t ${GREEN}Menu 4: CONTROL PANEL ${Yellow} \n";
     echo -e "\t1. Install OwnCloud       ${PURPLE} ";
     echo -e "\t2. Install Vesta          ${BLUE} ";
     echo -e "\t3. Install HESTIA         ${PURPLE} ";
-    echo -e "\t4. FREE                   ${RED} ";
+    echo -e "\t4. Install FastPANEL      ${RED} ";
     echo -e "\n\tq/0. Back               ${NC}\n ";
 };
 
@@ -2882,8 +2916,8 @@ function MENU_7() {
 ##   MENU 8: Modules & Components
 function MENU_MODandCOMPON() {
     echo -e "\n\t ${GREEN}Menu 8: Modules & Components ${Yellow} \n";
-    echo -e "\t1. Install Pure-FTP       ${PURPLE} ";
-    echo -e "\t2. FREE                            ${PURPLE} ";
+    echo -e "\t1. Install Pure-FTP                ${PURPLE} ";
+    echo -e "\t2. Install OpenVPN                 ${PURPLE} ";
     echo -e "\t3. FREE                            ${PURPLE} ";
     echo -e "\t4. FREE                            ${RED} ";
     echo -e "\n\t0. Back                          ${NC}\n ";
@@ -2909,7 +2943,9 @@ function MENU_ScriptCOMPON() {
     a=true;
     case $opt in
 
-# ==== 1 SubMenu =============================
+# *********************************** 
+#  SubMENU #1
+# ***********************************
 		1) echo -e "==== Create SSH key ===="
 		while :
 		do
@@ -2930,7 +2966,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 2 =====================================
+# *********************************** 
+#  SubMENU #2
+# ***********************************
 		2) echo -e "Install LEMP: "
 		while :
 		do
@@ -2950,7 +2988,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 3 =====================================
+# *********************************** 
+#  SubMENU #3
+# ***********************************
 		3) echo -e "# submenu: MEMU 3"
 		while :
 		do
@@ -2968,7 +3008,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 4 =====================================
+# *********************************** 
+#  SubMENU #4
+# ***********************************
 		4) echo -e "Control Panell: "
 		while :
 		do
@@ -2980,7 +3022,7 @@ function MENU_ScriptCOMPON() {
 			1) OWNCLOUD ;;
 			2) Inst_VESTA ;;
 			3) INS_HESTIA ;;
-			4) echo -e "FREE $opt"  ;;
+			4) INS_FASTPANEL  ;;
 			5) echo -e "FREE $opt"  ;;
 			/q | q | 0) break ;;
 			*) ;;
@@ -2988,7 +3030,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 5 =====================================
+# *********************************** 
+#  SubMENU #5
+# ***********************************
 		5) echo -e "Modules & Components: "
 		while :
 		do
@@ -3008,7 +3052,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 6 =====================================
+# *********************************** 
+#  SubMENU #6
+# ***********************************
 		6) echo -e "Menu 6: "
 		while :
 		do
@@ -3017,7 +3063,7 @@ function MENU_ScriptCOMPON() {
 		echo -n -e "\n\tSelection: "
 		read -n1 opt;
 		case $opt in
-			1) PUREFTP_RUN ;;
+			1) echo -e "FREE $opt" && sleep 3 ;;
 			2) echo -e "FREE $opt" && sleep 3 ;;
 			3) echo -e "FREE $opt" && sleep 3 ;;
 			4) echo -e "FREE $opt" && sleep 3 ;;
@@ -3028,7 +3074,9 @@ function MENU_ScriptCOMPON() {
 		done
 		;;
 
-# ==== 7 =====================================
+# *********************************** 
+#  SubMENU #7
+# ***********************************
 		7) #FREE
 			echo -e "Menu 7: "
 			while :
@@ -3049,7 +3097,9 @@ function MENU_ScriptCOMPON() {
 			done
 		;;
 
-# ==== 8 =====================================
+# *********************************** 
+#  SubMENU #8
+# ***********************************
 		8) #COMPONENTS
 			echo -e "Menu 8: "
 			while :
@@ -3060,7 +3110,7 @@ function MENU_ScriptCOMPON() {
 			read -n1 opt;
 			case $opt in
 				1) PUREFTP_RUN ;;
-				2) echo -e "FREE $opt" && sleep 3 ;;
+				2) INS_OpenVPN ;;
 				3) echo -e "FREE $opt" && sleep 3 ;;
 				4) echo -e "FREE $opt" && sleep 3 ;;
 				5) echo -e "FREE $opt" && sleep 3 ;;
@@ -3070,7 +3120,9 @@ function MENU_ScriptCOMPON() {
 			done
 		;;
 
-# ==== 9 =====================================
+# *********************************** 
+#  SubMENU #9
+# ***********************************
 		9) #
 			echo -e "Script Components: "
 			while :
