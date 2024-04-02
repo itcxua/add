@@ -7,10 +7,10 @@
 # - - - - - - - - - - - - - - - - -
 #            INF RUN from SSH
 # - - - - - - - - - - - - - - - - -
-LINK="raw.githubusercontent.com/GitKitNet/add/main/ToolKit/stk.sh";  #bash -c "$(curl -L -fSs ${LINK})"
+LINK="raw.githubusercontent.com/itcxua/add/main/ToolKit/stk.sh";  #bash -c "$(curl -L -fSs ${LINK})"
 #bash <(wget -O - ${LINK})
 #bash -c "$(wget -O - ${LINK} || curl -fsSL ${LINK})";
-
+## bash -c "$(wget -O - raw.githubusercontent.com/itcxua/add/main/ToolKit/stk.sh || curl -fsSL raw.githubusercontent.com/itcxua/add/main/ToolKit/stk.sh)";
 
 
 # - - - - - - - - - - - - - - - - -
