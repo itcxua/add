@@ -2784,6 +2784,84 @@ rm /tmp/$$_install_fastpanel.sh
 }; 
 
 
+# ********************************
+# Install PURE FTP Rev/02
+# ********************************
+function PUREFTP_NEW() {
+	# Pure-FTPD + pureadmin (Ftp server with gui)
+	sudo apt-get install pure-ftpd pureadmin
+	sudo groupadd ftpgroup
+	sudo useradd -g ftpgroup -d /dev/null -s /etc ftpuser
+	sudo mkdir /home/ftpusers
+
+# ********************
+# Then to create a user
+# ********************
+	function CREATEUSER_NEW() {
+		read -p "Enter name user: " CREATEUSER
+		sudo mkdir /home/ftpusers/${CREATEUSER}
+		sudo pure-pw useradd ${CREATEUSER} -u ftpuser -d /home/ftpusers/${CREATEUSER}
+	};
+	CREATEUSER_NEW
+
+
+	sudo pure-pw mkdb
+	sudo ln -s /etc/pure-ftpd/pureftpd.passwd /etc/pureftpd.passwd
+	sudo ln -s /etc/pure-ftpd/pureftpd.pdb /etc/pureftpd.pdb
+	sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/PureDB
+	sudo chown -hR ftpuser:ftpgroup /home/ftpusers/
+	
+ 	# and stop firestarter if it is installed.
+	gksudo pureadmin
+	sudo /etc/init.d/pure-ftpd restart
+	systemctl status pure-ftpd
+
+
+# ********************
+# SECURITY
+# ********************
+	# FTP is by nature a rather unsecure protocol. Add TLS support to prevent your sessions from being vulnerable to man-in-the-middle-attacks
+	sudo apt-get install openssl
+		# sudo echo 2 > /etc/pure-ftpd/conf/TLS     # лише режим TLS у Pure-FTPd
+	sudo echo 1 > /etc/pure-ftpd/conf/TLS       # або незахищені з’єднання FTP
+	# Make a private SSL key
+	sudo mkdir -p /etc/ssl/private/
+	sudo openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout /etc/ssl/private/pure-ftpd.pem -out /etc/ssl/private/pure-ftpd.pem
+	sudo chmod 600 /etc/ssl/private/pure-ftpd.pem
+	/etc/init.d/pure-ftpd restart
+	systemctl status pure-ftpd
+
+
+# AMAZON AWS SETTINGS
+# ********************
+	function if_AMAZON_AWS_SETTINGS() {
+	# If installing on an AWS server, you will need to configure IP address routing information specific to your server. If using the default UBUNTU server, use the following. Note that echo will not properly be able to edit a file unless you are in a sudo shell, which is why we use "sudo bash -c".
+		cd /etc/pure-ftpd/conf
+		sudo bash -c 'echo "35000 36000" > PassivePortRange'
+		sudo bash -c 'echo "YOURIPHERE" > ForcePassiveIP'
+		sudo bash -c 'echo "yes" > DontResolve'
+	
+	# These commands will allow most programs, like FileZilla, to connect via FTP passive mode to the server. 
+	# Amazon AWS servers use internal IP addresses starting with "10." for most things, and you will need to
+	# explicitly define this IP address for your FTP software to be able to communicate.
+	# Update your Amazon AWS Firewall settings.
+		"Custom TCP Range" 35000 36000
+		"Custom TCP Range" 21
+	};
+	# if_AMAZON_AWS_SETTINGS
+
+#********************
+# TROUBLESHOOTING
+#********************
+	id ftpuser
+	sudo usermod -u 1021 -p -U ftpuser
+	sudo groupmod -g 1022 ftpgroup
+	/etc/init.d/pure-ftpd restart
+	systemctl status pure-ftpd
+
+}; 
+
+
 
 # Update Script
 # ********************************
@@ -3125,7 +3203,7 @@ function MENU_ScriptCOMPON() {
 			case $opt in
 				1) PUREFTP_RUN ;;
 				2) INS_OpenVPN ;;
-				3) echo -e "FREE $opt" && sleep 3 ;;
+				3) PUREFTP_NEW ;;
 				4) echo -e "FREE $opt" && sleep 3 ;;
 				5) echo -e "FREE $opt" && sleep 3 ;;
 				/q | q | 0) break ;;
