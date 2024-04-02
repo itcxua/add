@@ -3167,7 +3167,7 @@ function MENU_ScriptCOMPON() {
 	echo "Quit..." && sleep 3 && clear;
 }; 
 
-THIS
+## THIS
 MAIN
 
 CleanUP_;
