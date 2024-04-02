@@ -2797,25 +2797,25 @@ function PUREFTP_NEW() {
 # ********************
 # Then to create a user
 # ********************
-	function CREATEUSER_NEW() {
-		read -p "Enter name user: " CREATEUSER
-		sudo mkdir /home/ftpusers/${CREATEUSER}
-		sudo pure-pw useradd ${CREATEUSER} -u ftpuser -d /home/ftpusers/${CREATEUSER}
-	};
-	CREATEUSER_NEW
+    function CREATEUSER_NEW() {
+      read -p "Enter name user: " CREATEUSER;
+      sudo mkdir /home/ftpusers/${CREATEUSER};
+      sudo pure-pw useradd ${CREATEUSER} -u ftpuser -d /home/ftpusers/${CREATEUSER};
+      pure-pw mkdb; && chown -hR ftpuser:ftpgroup /home/ftpusers/;
+      /etc/init.d/pure-ftpd restart && sleep 3;
 
-
-	sudo pure-pw mkdb
-	sudo ln -s /etc/pure-ftpd/pureftpd.passwd /etc/pureftpd.passwd
-	sudo ln -s /etc/pure-ftpd/pureftpd.pdb /etc/pureftpd.pdb
-	sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/PureDB
-	sudo chown -hR ftpuser:ftpgroup /home/ftpusers/
+      sudo pure-pw mkdb;
+      sudo ln -s /etc/pure-ftpd/pureftpd.passwd /etc/pureftpd.passwd;
+      sudo ln -s /etc/pure-ftpd/pureftpd.pdb /etc/pureftpd.pdb;
+      sudo ln -s /etc/pure-ftpd/conf/PureDB /etc/pure-ftpd/auth/PureDB;
+      sudo chown -hR ftpuser:ftpgroup /home/ftpusers/;
 	
  	# and stop firestarter if it is installed.
-	gksudo pureadmin
-	sudo /etc/init.d/pure-ftpd restart
-	systemctl status pure-ftpd
-
+      gksudo pureadmin;
+      sudo /etc/init.d/pure-ftpd restart && sleep 3;
+      # systemctl status pure-ftpd;
+    };
+    CREATEUSER_NEW
 
 # ********************
 # SECURITY
@@ -2854,10 +2854,10 @@ function PUREFTP_NEW() {
 # TROUBLESHOOTING
 #********************
 	id ftpuser
-	sudo usermod -u 1021 -p -U ftpuser
-	sudo groupmod -g 1022 ftpgroup
-	/etc/init.d/pure-ftpd restart
-	systemctl status pure-ftpd
+	sudo usermod -u 1021 -p -U ftpuser;
+	sudo groupmod -g 1022 ftpgroup;
+	/etc/init.d/pure-ftpd restart && sleep 5;
+	#systemctl status pure-ftpd;
 
 }; 
 
