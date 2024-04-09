@@ -5,7 +5,6 @@
 # wget raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn.sh -O - | bash -
 # Copyright (c) 2013 Nyr. Released under the MIT License.
 
-
 # Detect Debian users running the script with "sh" instead of bash
 if readlink /proc/$$/exe | grep -q "dash"; then
 	echo 'This installer needs to be run with "bash", not "sh".'
@@ -51,10 +50,16 @@ This version of Ubuntu is too old and unsupported."
 	exit
 fi
 
-if [[ "$os" == "debian" && "$os_version" -lt 9 ]]; then
-	echo "Debian 9 or higher is required to use this installer.
+if [[ "$os" == "debian" ]]; then
+	if grep -q '/sid' /etc/debian_version; then
+		echo "Debian Testing and Debian Unstable are unsupported by this installer."
+		exit
+	fi
+	if [[ "$os_version" -lt 9 ]]; then
+		echo "Debian 9 or higher is required to use this installer.
 This version of Debian is too old and unsupported."
-	exit
+		exit
+	fi
 fi
 
 if [[ "$os" == "centos" && "$os_version" -lt 7 ]]; then
@@ -125,7 +130,7 @@ if [[ ! -e /etc/openvpn/server/server.conf ]]; then
 		[[ -z "$ip_number" ]] && ip_number="1"
 		ip=$(ip -4 addr | grep inet | grep -vE '127(\.[0-9]{1,3}){3}' | cut -d '/' -f 1 | grep -oE '[0-9]{1,3}(\.[0-9]{1,3}){3}' | sed -n "$ip_number"p)
 	fi
-	# If $ip is a private IP address, the server must be behind NAT
+	# If $ip is a private IP address, the server must be behind NAT
 	if echo "$ip" | grep -qE '^(10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.|192\.168)'; then
 		echo
 		echo "This server is behind NAT. What is the public IPv4 address or hostname?"
@@ -237,7 +242,7 @@ LimitNPROC=infinity" > /etc/systemd/system/openvpn-server@server.service.d/disab
 		systemctl enable --now firewalld.service
 	fi
 	# Get easy-rsa
-	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.1/EasyRSA-3.1.1.tgz'
+	easy_rsa_url='https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.7/EasyRSA-3.1.7.tgz'
 	mkdir -p /etc/openvpn/server/easy-rsa/
 	{ wget -qO- "$easy_rsa_url" 2>/dev/null || curl -sL "$easy_rsa_url" ; } | tar xz -C /etc/openvpn/server/easy-rsa/ --strip-components 1
 	chown -R root:root /etc/openvpn/server/easy-rsa/
@@ -324,7 +329,6 @@ server 10.8.0.0 255.255.255.0" > /etc/openvpn/server/server.conf
 	esac
 	echo 'push "block-outside-dns"' >> /etc/openvpn/server/server.conf
 	echo "keepalive 10 120
-cipher AES-256-CBC
 user nobody
 group $group_name
 persist-key
@@ -424,7 +428,6 @@ persist-key
 persist-tun
 remote-cert-tls server
 auth SHA512
-cipher AES-256-CBC
 ignore-unknown-option block-outside-dns
 verb 3" > /etc/openvpn/server/client-common.txt
 	# Enable and start the OpenVPN service
@@ -565,3 +568,6 @@ else
 			exit
 		;;
 	esac
+fi;
+
+#########  END  #########
