@@ -2,7 +2,7 @@
 #
 # https://github.com/Nyr/openvpn-install
 #
-# wget raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn.sh -O - | bash -
+# bash -c "$(wget -O - raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn.sh)";
 # Copyright (c) 2013 Nyr. Released under the MIT License.
 
 # Detect Debian users running the script with "sh" instead of bash
