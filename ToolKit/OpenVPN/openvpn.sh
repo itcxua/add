@@ -2,6 +2,7 @@
 #
 # https://github.com/Nyr/openvpn-install
 #
+# wget raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn.sh -O - | bash -
 # Copyright (c) 2013 Nyr. Released under the MIT License.
 
 
