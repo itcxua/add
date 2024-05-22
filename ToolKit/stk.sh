@@ -2801,7 +2801,7 @@ function PUREFTP_NEW() {
       read -p "Enter name user: " CREATEUSER;
       sudo mkdir /home/ftpusers/${CREATEUSER};
       sudo pure-pw useradd ${CREATEUSER} -u ftpuser -d /home/ftpusers/${CREATEUSER};
-      pure-pw mkdb; && chown -hR ftpuser:ftpgroup /home/ftpusers/;
+      pure-pw mkdb && chown -hR ftpuser:ftpgroup /home/ftpusers/;
       /etc/init.d/pure-ftpd restart && sleep 3;
 
       sudo pure-pw mkdb;
