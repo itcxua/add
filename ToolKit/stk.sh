@@ -2880,7 +2880,7 @@ function SCriptUPDATE() {
 # OpenVPN Install
 # ********************************
 function INS_OpenVPN() {
-	wget https://raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn-install.sh -O - | bash -
+	bash -c "$(wget -O - wget https://raw.githubusercontent.com/itcxua/add/main/ToolKit/OpenVPN/openvpn-install.sh)";
 	echo -en "\n Now OpenVPN is INSTALLED" && sleep 2;
 }
 
