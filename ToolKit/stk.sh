@@ -729,7 +729,7 @@ nginx -s reload
 # sleep 5
 # nginx -s reload
 cd /root/
-touch dm && wget https://scr.devkong.work/addomain_into_file.py && chmod +x addomain_into_file.py
+touch dm && wget https://raw.githubusercontent.com/itcxua/add/main/ToolKit/tools/addomain_into_file.py && chmod +x addomain_into_file.py
 
 }
 
@@ -890,7 +890,7 @@ nginx -s reload
 
 cd /root/
 touch dm
-wget -O ./addomain_into_file.py https://scr.it.cx.ua/addomain_into_file.py && chmod +x ./addomain_into_file.py
+wget -O ./addomain_into_file.py https://raw.githubusercontent.com/itcxua/add/main/ToolKit/tools/addomain_into_file.py && chmod +x ./addomain_into_file.py
 
 echo "
 ============================================
@@ -1189,7 +1189,7 @@ certbot --nginx -d ${domain} -d www.${domain} -m brain.devops@gmail.com --non-in
 nginx -s reload
 cd /root/
 touch dm
-wget -O ./addomain_into_file.py https://scr.it.cx.ua/addomain_into_file.py && chmod +x ./addomain_into_file.py
+wget -O ./addomain_into_file.py https://raw.githubusercontent.com/itcxua/add/main/ToolKit/tools/addomain_into_file.py && chmod +x ./addomain_into_file.py
 
 echo -e "\n ==========    Mysql Server Installation    ==========\n"
 
